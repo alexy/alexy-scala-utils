@@ -18,6 +18,7 @@ pluginRepositories:
   - { id: twdata-m2-repository, name: twdata.org Maven 2 Repository, url: "http://twdata-m2-repository.googlecode.com/svn/" }
 dependencies:
   - { groupId: org.scala-lang, artifactId: scala-library, version: "${scala.version}" }
+  - { groupId: berkeleydb, artifactId: je, version: 3.3.82 }
 build:
   sourceDirectory: src/main/scala
   resources:

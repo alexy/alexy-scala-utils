@@ -2,6 +2,9 @@
 // http://blog.staale.org/2009/03/using-traits-to-configure-berkely-jdp.html
 package la.scala.util.bdb
 
+import com.sleepycat.je.{DatabaseException,Environment,EnvironmentConfig}
+import java.io.File
+
 class Env(val path:File) {
     trait Transactional extends Env { config.setTransactional(true) }
     trait AllowCreate extends Env { config.setAllowCreate(true) }
