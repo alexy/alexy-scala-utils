@@ -1,0 +1,41 @@
+groupId: la.scala.sql
+artifactId: rich
+name: Rich SQL
+version: 1.0
+url: "http://scala.sygneca.com/code/simplifying-jdbc"
+organization:
+  name: Alexy Khrabrov
+  url: "http://alexy.khrabrov.net/"
+description: 
+properties:
+  scala.version: 2.8.0-SNAPSHOT
+  project.build.sourceEncoding: UTF-8
+repositories:
+  - { id: scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-releases" }
+  - { id: snapshots.scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-snapshots" }
+pluginRepositories:
+  - { id: scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-releases" }
+  - { id: twdata-m2-repository, name: twdata.org Maven 2 Repository, url: "http://twdata-m2-repository.googlecode.com/svn/" }
+dependencies:
+  - { groupId: org.scala-lang, artifactId: scala-library, version: "${scala.version}" }
+  - { groupId: org.postgreqsl, artifactId: jdbc4, version: 8.3-604 }
+build:
+  sourceDirectory: src/main/scala
+  resources:
+    - { directory: resources }
+  plugins:
+    - groupId: org.apache.maven.plugins
+      artifactId: maven-compiler-plugin
+      configuration:
+        excludes: [ "**/Drafts/**" ]
+    - groupId: org.scala-tools
+      artifactId: maven-scala-plugin
+      executions:
+        - goals: [ compile, testCompile ]
+      configuration:
+        launchers:
+          - { id: go1, mainClass: la.scala.sql.rich.TestF2 }
+        excludes: [ "**/Drafts/**" ]
+reporting:
+  plugins:
+    - { groupId: org.scala-tools, artifactId: maven-scala-plugin }
