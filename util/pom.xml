@@ -46,6 +46,11 @@
             <artifactId>scala-library</artifactId>
             <version>${scala.version}</version>
         </dependency>
+        <dependency>
+            <groupId>berkeleydb</groupId>
+            <artifactId>je</artifactId>
+            <version>3.3.82</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>

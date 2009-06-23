@@ -1,5 +1,7 @@
 // Berkeley DB Java DPL storage for tweets
 // http://blog.staale.org/2009/03/using-traits-to-configure-berkely-jdp.html
+// http://forums.oracle.com/forums/thread.jspa?threadID=594269&tstart=15
+
 package la.scala.util.bdb
 
 import com.sleepycat.je.{DatabaseException,Environment,EnvironmentConfig}
