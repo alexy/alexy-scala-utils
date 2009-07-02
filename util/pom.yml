@@ -1,5 +1,5 @@
 groupId: la.scala
-artifactId: util
+artifactId: "util_${scala.version}"
 name: La Scala Utilities
 version: 1.0
 url: "http://la.scala.la/"
@@ -8,19 +8,40 @@ organization:
   url: "http://alexy.khrabrov.net/"
 description: 
 properties:
-  scala.version: 2.8.0-SNAPSHOT
+  java.src.version: 1.6
   project.build.sourceEncoding: UTF-8
+profiles:
+  - activation:
+      activeByDefault: true
+    id: Scala-2.7.5
+    properties:
+      scala.version: 2.7.5
+  - id: Scala-2.8.0-SNAPSHOT
+    properties:
+      scala.version: 2.8.0-SNAPSHOT
 repositories:
-  - { id: scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-releases" }
-  - { id: snapshots.scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-snapshots" }
+  - { id: scala-tools.org, name: Scala-Tools Maven2 Release Repository, url: "http://scala-tools.org/repo-releases" }
+  - id: snapshots.scala-tools.org
+    name: Scala-Tools Maven2 Snapshot Repository
+    url: "http://scala-tools.org/repo-snapshots"
+    snapshots:
+      enabled: true
+      updatePolicy: never
+      checksumPolicy: fail
+    releases:
+      enabled: true
+      updatePolicy: never
+      checksumPolicy: fail
 pluginRepositories:
   - { id: scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-releases" }
   - { id: twdata-m2-repository, name: twdata.org Maven 2 Repository, url: "http://twdata-m2-repository.googlecode.com/svn/" }
 dependencies:
   - { groupId: org.scala-lang, artifactId: scala-library, version: "${scala.version}" }
+  - { groupId: org.scala-lang, artifactId: scala-compiler, version: "${scala.version}" }
   - { groupId: berkeleydb, artifactId: je, version: 3.3.82 }
 build:
   sourceDirectory: src/main/scala
+  directory: "target-${scala.version}"
   resources:
     - { directory: resources }
   plugins:

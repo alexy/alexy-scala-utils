@@ -3,7 +3,8 @@
 
 package la.scala.sql.rich
 
-import java.sql.{DriverManager, Connection, ResultSet, PreparedStatement, Statement, Date}
+import java.sql.{DriverManager, Connection, ResultSet, PreparedStatement, Statement, Date, Timestamp}
+import org.joda.time.DateTime
 
 object RichSQL {
     implicit def rrs2Boolean(rs: RichResultSet) = rs.nextBoolean
@@ -14,6 +15,8 @@ object RichSQL {
     implicit def rrs2Double(rs: RichResultSet) = rs.nextDouble
     implicit def rrs2String(rs: RichResultSet) = rs.nextString
     implicit def rrs2Date(rs: RichResultSet) = rs.nextDate
+    implicit def rrs2Timestamp(rs: RichResultSet) = rs.nextTimestamp
+    implicit def rrs2DateTime(rs: RichResultSet) = new DateTime(rs.nextTimestamp.getTime)
     implicit def st2Rich(s: Statement) = new RichStatement(s)
     implicit def rich2St(rs: RichStatement) = rs.s
 
@@ -38,15 +41,18 @@ object RichSQL {
         
       var pos = 1
       def apply(i: Int) = { pos = i; this }
-        
-      def nextBoolean: Boolean = { val ret = rs.getBoolean(pos); pos = pos + 1; ret }
-      def nextByte: Byte = { val ret = rs.getByte(pos); pos = pos + 1; ret }
-      def nextInt: Int = { val ret = rs.getInt(pos); pos = pos + 1; ret }
-      def nextLong: Long = { val ret = rs.getLong(pos); pos = pos + 1; ret }
-      def nextFloat: Float = { val ret = rs.getFloat(pos); pos = pos + 1; ret }
-      def nextDouble: Double = { val ret = rs.getDouble(pos); pos = pos + 1; ret }
-      def nextString: String = { val ret = rs.getString(pos); pos = pos + 1; ret }
-      def nextDate: Date = { val ret = rs.getDate(pos); pos = pos + 1; ret }
+      private def inc = { pos += 1 }
+  
+      def nextBoolean: Boolean = { val r = rs.getBoolean(pos); inc; r }
+      def nextByte: Byte = { val r = rs.getByte(pos); inc; r }
+      def nextInt: Int = { val r = rs.getInt(pos); inc; r }
+      def nextLong: Long = { val r = rs.getLong(pos); inc; r }
+      def nextFloat: Float = { val r = rs.getFloat(pos); inc; r }
+      def nextDouble: Double = { val r = rs.getDouble(pos); inc; r }
+      def nextString: String = { val r = rs.getString(pos); inc; r }
+      def nextDate: Date = { val r = rs.getDate(pos); inc; r }
+      def nextTimestamp: Timestamp = { val r = rs.getTimestamp(pos); inc; r }
+      def nextDateTime: DateTime = new DateTime(nextTimestamp)
  
       def foldLeft[X](init: X)(f: (ResultSet, X) => X): X = rs.next match {
         case false => init
@@ -80,6 +86,9 @@ object RichSQL {
       def <<(d: Double) = { ps.setDouble(pos, d); inc }      
       def <<(o: String) = { ps.setString(pos, o); inc }
       def <<(x: Date) = { ps.setDate(pos, x); inc }
+      // how do we help Scala infer the natural:
+      // def <<(x: DateTime) = <<(x.toDate)
+      def <<(x: DateTime) = { ps.setTimestamp(pos, new java.sql.Timestamp(x.getMillis)); inc }
     }
     
     class RichConnection(val conn: Connection) {

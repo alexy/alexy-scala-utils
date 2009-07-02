@@ -1,15 +1,24 @@
 groupId: la.scala.sql
-artifactId: rich
+artifactId: "rich_${scala.version}"
 name: Rich SQL
 version: 1.0
 url: "http://scala.sygneca.com/code/simplifying-jdbc"
 organization:
   name: Alexy Khrabrov
   url: "http://alexy.khrabrov.net/"
-description: 
+description: implicit-based wrapper for JDBC
 properties:
-  scala.version: 2.8.0-SNAPSHOT
+  java.src.version: 1.6
   project.build.sourceEncoding: UTF-8
+profiles:
+  - activation:
+      activeByDefault: true
+    id: Scala-2.7.5
+    properties:
+      scala.version: 2.7.5
+  - id: Scala-2.8.0-SNAPSHOT
+    properties:
+      scala.version: 2.8.0-SNAPSHOT
 repositories:
   - { id: scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-releases" }
   - { id: snapshots.scala-tools.org, name: Scala-Tools Maven2 Repository, url: "http://scala-tools.org/repo-snapshots" }
@@ -18,9 +27,12 @@ pluginRepositories:
   - { id: twdata-m2-repository, name: twdata.org Maven 2 Repository, url: "http://twdata-m2-repository.googlecode.com/svn/" }
 dependencies:
   - { groupId: org.scala-lang, artifactId: scala-library, version: "${scala.version}" }
+  - { groupId: org.scala-lang, artifactId: scala-compiler, version: "${scala.version}" }
   - { groupId: org.postgreqsl, artifactId: jdbc4, version: 8.3-604 }
+  - { groupId: joda-time, artifactId: joda-time, version: 1.6 }
 build:
   sourceDirectory: src/main/scala
+  directory: "target-${scala.version}"
   resources:
     - { directory: resources }
   plugins:
