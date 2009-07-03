@@ -11,6 +11,7 @@ object RichSQL {
     implicit def rrs2Byte(rs: RichResultSet) = rs.nextByte
     implicit def rrs2Int(rs: RichResultSet) = rs.nextInt
     implicit def rrs2Long(rs: RichResultSet) = rs.nextLong
+    implicit def rrs2LongOption(rs: RichResultSet) = rs.nextLongOption
     implicit def rrs2Float(rs: RichResultSet) = rs.nextFloat
     implicit def rrs2Double(rs: RichResultSet) = rs.nextDouble
     implicit def rrs2String(rs: RichResultSet) = rs.nextString
@@ -47,6 +48,18 @@ object RichSQL {
       def nextByte: Byte = { val r = rs.getByte(pos); inc; r }
       def nextInt: Int = { val r = rs.getInt(pos); inc; r }
       def nextLong: Long = { val r = rs.getLong(pos); inc; r }
+      // played with the following in the clients:
+      // def getOrNull(o: Option[_]) = o match { case Some(x) => x; case _ => null }
+      // then dug in and did an option for each type needed:
+      def nextLongOption: Option[Long] = { 
+        // Any/cast not necessary, JDBC returns 0 for null anyways:
+        // val grab: Any = rs.getLong(pos)
+        // ... else Some(grab.asInstanceOf[Long])
+        val grab: Long = rs.getLong(pos)
+        val r: Option[Long] = if (rs.wasNull) None else Some(grab)
+        inc
+        r
+        }
       def nextFloat: Float = { val r = rs.getFloat(pos); inc; r }
       def nextDouble: Double = { val r = rs.getDouble(pos); inc; r }
       def nextString: String = { val r = rs.getString(pos); inc; r }
@@ -82,6 +95,13 @@ object RichSQL {
       def <<(x: Byte) = { ps.setByte(pos, x); inc }
       def <<(i: Int) = { ps.setInt(pos, i); inc }
       def <<(x: Long) = { ps.setLong(pos, x); inc }
+      def <<(xo: Option[Long]) = { 
+        xo match {
+          case Some(x) => ps.setLong(pos, x)
+          case _ => ps.setNull(pos, 0)
+        }
+        inc
+      }
       def <<(f: Float) = { ps.setFloat(pos, f); inc }
       def <<(d: Double) = { ps.setDouble(pos, d); inc }      
       def <<(o: String) = { ps.setString(pos, o); inc }
