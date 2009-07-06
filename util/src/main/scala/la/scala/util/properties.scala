@@ -39,7 +39,15 @@ object Properties {
       
       ns.text
     }
-    
+
+    def getString(name: String, default: String): String = {
+      try {
+        get(name)
+      } catch {
+        case NotFound(_) => default
+      }
+    }
+        
     def getInt(name: String, default: Int): Int = {
       try {
         val x = get(name)
