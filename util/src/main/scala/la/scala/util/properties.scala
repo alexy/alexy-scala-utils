@@ -58,6 +58,16 @@ object Properties {
       }
     }
     
+    def getLong(name: String, default: Long): Long = {
+      try {
+        val x = get(name)
+        x.toLong
+      } catch {
+        case NotFound(_) => default
+        case _: NumberFormatException => default
+      }
+    }
+    
     // one of the aux. versions with reporting
     def default[T](out: PrintStream, msg: String, name: String, i: T): T = { out.println(msg+" using default: "+name+" = "+i); i }
 }

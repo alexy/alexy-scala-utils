@@ -5,16 +5,36 @@
 package la.scala.util.bdb
 
 import com.sleepycat.je.{DatabaseException,Environment,EnvironmentConfig}
+import com.sleepycat.persist.{EntityStore,StoreConfig}
 import java.io.File
 
-class Env(val path:File) {
+object Env {
     trait Transactional extends Env { config.setTransactional(true) }
     trait AllowCreate extends Env { config.setAllowCreate(true) }
- 
-    val config = new EnvironmentConfig()
-    def apply[T](f:(Environment) => T) = {
-        val env = new Environment(path, config)
-        try { f(env) } finally { env.close() }
- 
+}
+
+class Env(val path:String) {
+    val config = new EnvironmentConfig
+    val e: Environment = new Environment(new File(path),config)
+    def close: Unit = e.close
+
+    def apply[T](f: Environment => T) = {
+        try { f(e) } finally { e.close }
+    }
+}
+
+object Store {
+    trait Transactional extends Store { config.setTransactional(true) }
+    trait AllowCreate extends Store { config.setAllowCreate(true) }
+}
+
+class Store(val env: Env, val name: String) {
+    val config = new StoreConfig
+    val s: EntityStore = new EntityStore(env.e,name,config)    
+    def close: Unit = s.close
+    
+    def apply[T](f: EntityStore => T) = {
+        // can also close the enclosing environment?
+        try { f(s) } finally { s.close }
     }
 }
