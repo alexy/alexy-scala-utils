@@ -2,7 +2,7 @@
 // http://blog.staale.org/2009/03/using-traits-to-configure-berkely-jdp.html
 // http://forums.oracle.com/forums/thread.jspa?threadID=594269&tstart=15
 
-package la.scala.util.bdb
+package org.suffix.util.bdb
 
 import com.sleepycat.je.{DatabaseException,Environment,EnvironmentConfig}
 import com.sleepycat.persist.{EntityStore,StoreConfig}

@@ -1,8 +1,8 @@
-package la.scala.util
+package org.suffix.util
 
 object Properties {
-    import io.{Source,BufferedSource}
-    import xml.XML
+    import scala.io.{Source,BufferedSource}
+    import scala.xml.XML
     import java.io.PrintStream
     
     case class NotFound(s: String) extends Exception(s)
