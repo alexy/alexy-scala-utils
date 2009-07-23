@@ -1,4 +1,4 @@
-groupId: la.scala.sql
+groupId: org.suffix.sql
 artifactId: "rich_${scala.version}"
 name: Rich SQL
 version: 1.0

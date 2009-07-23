@@ -1,4 +1,4 @@
-groupId: la.scala
+groupId: org.suffix
 artifactId: "util_${scala.version}"
 name: La Scala Utilities
 version: 1.0
