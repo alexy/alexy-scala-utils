@@ -1,4 +1,4 @@
-package la.scala.sql.rich
+package org.suffix.sql.rich
  
 // In Scala we can specify multiple imports from the same package
 // by combining them together. 

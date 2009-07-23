@@ -1,7 +1,7 @@
 // @n8han after http://scala.sygneca.com/code/simplifying-jdbc
 // @khrabrov package, de-;-ed
 
-package la.scala.sql.rich
+package org.suffix.sql.rich
 
 import java.sql.{DriverManager, Connection, ResultSet, PreparedStatement, Statement, Date, Timestamp}
 import org.joda.time.DateTime
