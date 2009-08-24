@@ -24,6 +24,7 @@ class BdbStore(bdbArgs: BdbArgs) {
   val BdbArgs(envPath,storeName,bdbFlags,cacheSize) = bdbArgs
   val BdbFlags(bdbAllowCreate,bdbReadOnly,bdbTransactional,bdbDeferredWrite,bdbNoSync) = bdbFlags
   
+  err.println("BDB env "+envPath+", DPL store: "+storeName)
   /* Open the JE Environment. */
   val envConfig = new EnvironmentConfig
 
@@ -160,9 +161,9 @@ class BdbStore(bdbArgs: BdbArgs) {
     
   def cursorMap[T,R](cursor: EntityCursor[T])(f: T => R): List[R] = {  
     def cursorMapAux(cursor: EntityCursor[T])(res: List[R]): List[R] = {
-      val x = cursor.next()
+      val x = cursor.next
       if (x == null) {
-          cursor.close()
+          cursor.close
           res // or res.reverse if you care about the order
       } else {
           cursorMapAux(cursor)(f(x)::res) // tail recursion
