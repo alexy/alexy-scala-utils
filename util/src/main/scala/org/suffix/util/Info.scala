@@ -7,6 +7,6 @@ object Info {
 }
 
 object Debug {
-  def print(show: Boolean)(s: String): Unit   = if (show) err.print(s)
-  def println(show: Boolean)(s: String): Unit = if (show) err.println(s)
+  def print(show: Boolean)(a: Any): Unit   = if (show) err.print(a)
+  def println(show: Boolean)(a: Any): Unit = if (show) err.println(a)
 }
