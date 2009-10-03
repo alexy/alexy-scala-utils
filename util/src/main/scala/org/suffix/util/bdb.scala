@@ -19,6 +19,19 @@ case class BdbArgs (
   flags: BdbFlags,
   cacheSize: Option[Long]
   )
+  
+object BdbStore {
+  val gigaByte = 1024*1024*1024
+  def roundCacheSize(cacheSizeGb: Double): Long = 
+      (cacheSizeGb*gigaByte).toLong
+      
+  def cacheSizeBytesOpt(cacheSizeGbO: Option[Double]): Option[Long] = {
+    cacheSizeGbO match {
+      case Some(x) => Some(roundCacheSize(x))
+      case _ => None
+    }
+  }
+}
 
 class BdbStore(bdbArgs: BdbArgs) {
   val BdbArgs(envPath,storeName,bdbFlags,cacheSize) = bdbArgs
