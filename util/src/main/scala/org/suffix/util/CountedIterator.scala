@@ -24,7 +24,8 @@ object types {
   new RichIterator(it)
   
   def main(args: Array[String]) = {
-    val it = List.make(5,"foo").elements.withCounting
+ //   val it = List.make(5,"foo").elements.withCounting // 2.7
+    val it = List.fill(5)("foo").iterator.withCounting  // 2.8
     println(it.count)
     it.next()
     it.next()

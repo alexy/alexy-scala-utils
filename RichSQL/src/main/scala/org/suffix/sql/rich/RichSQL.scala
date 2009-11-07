@@ -118,7 +118,7 @@ object RichSQL {
     
     class RichStatement(val s: Statement) {
       def <<(sql: String) = { s.execute(sql); this }
-      def <<(sql: Seq[String]) = { for (val x <- sql) s.execute(x); this }
+      def <<(sql: Seq[String]) = { for (x <- sql) s.execute(x); this }
     }
 
   // extract a single result from the stream, when present

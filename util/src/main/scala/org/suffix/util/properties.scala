@@ -15,11 +15,10 @@ object Properties {
     // and use the newly assigned ss, not old one!
     
     def resettable: BufferedSource =
-      BufferedSource.fromInputStream(st, "UTF-8", 512, { 
-        () =>  Source.fromInputStream(getProperties) })
+      new BufferedSource(st)
+
       
-      
-    def lines = resettable.getLines
+    def lines = resettable.getLines _
   
     // val twitterUser=linesIter.next.trim
     // can use some simple steganography here

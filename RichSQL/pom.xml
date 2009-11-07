@@ -18,9 +18,6 @@
     </properties>
     <profiles>
         <profile>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <id>Scala-2.7.5</id>
             <properties>
                 <scala.version>2.7.5</scala.version>
@@ -28,6 +25,9 @@
         </profile>
         <profile>
             <id>Scala-2.8.0-SNAPSHOT</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <scala.version>2.8.0-SNAPSHOT</scala.version>
             </properties>
@@ -69,7 +69,7 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.postgreqsl</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>jdbc4</artifactId>
             <version>8.3-604</version>
         </dependency>
