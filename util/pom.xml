@@ -34,8 +34,8 @@
                 <scala.version>2.8.0-SNAPSHOT</scala.version>
             </properties>
             <activation>
+                <activeByDefault>true</activeByDefault>
                 <file>
-                	<activeByDefault>true</activeByDefault>
                     <exists>Scala-2.8.0-SNAPSHOT</exists>
                 </file>
             </activation>
