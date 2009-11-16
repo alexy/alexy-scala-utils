@@ -82,9 +82,9 @@
             <version>${scala.version}</version>
         </dependency>
         <dependency>
-            <groupId>berkeleydb</groupId>
+            <groupId>com.sleepycat</groupId>
             <artifactId>je</artifactId>
-            <version>3.3.82</version>
+            <version>4.0.71</version>
         </dependency>
     </dependencies>
     <build>

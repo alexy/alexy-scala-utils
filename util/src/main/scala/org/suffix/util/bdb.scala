@@ -17,7 +17,8 @@ case class BdbArgs (
   envPath: String,
   storeName: String,
   flags: BdbFlags,
-  cacheSize: Option[Long]
+  cacheSize: Option[Long],
+  verbose: Boolean
   )
   
 object BdbStore {
@@ -34,7 +35,7 @@ object BdbStore {
 }
 
 class BdbStore(bdbArgs: BdbArgs) {
-  val BdbArgs(envPath,storeName,bdbFlags,cacheSize) = bdbArgs
+  val BdbArgs(envPath,storeName,bdbFlags,cacheSize,verbose) = bdbArgs
   val BdbFlags(bdbAllowCreate,bdbReadOnly,bdbTransactional,bdbDeferredWrite,bdbNoSync) = bdbFlags
   
   err.println("BDB env "+envPath+", DPL store: "+storeName)
@@ -104,8 +105,10 @@ class BdbStore(bdbArgs: BdbArgs) {
       // txnCommit
       store.sync
       store.close
+      if (verbose) err.println("synced and closed JE store: "+storeName)
       env.sync
       env.close
+      if (verbose) err.println("synced and closed JE environment: "+envPath)
     } catch {
       // if closing already closed, do nothing
       // or could check whether already closed -- how?
@@ -115,6 +118,7 @@ class BdbStore(bdbArgs: BdbArgs) {
     }
   }
   
+  // TODO comment out things actually present in 2.8 now
   // Stream.continually is in 2.8
   def continually[A](elem: => A): Stream[A] = Stream.cons(elem, continually(elem))
   // paulp has this in scala.util.control.Exception in 2.8:
