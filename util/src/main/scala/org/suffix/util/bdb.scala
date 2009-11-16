@@ -18,7 +18,7 @@ case class BdbArgs (
   storeName: String,
   flags: BdbFlags,
   cacheSize: Option[Long],
-  verbose: Boolean
+  verbose: Boolean = false
   )
   
 object BdbStore {
