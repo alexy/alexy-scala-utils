@@ -191,5 +191,10 @@ class BdbStore(bdbArgs: BdbArgs) {
   }
   
   
-  def printAll[T](c: EntityCursor[T]): Unit = cursorIter(c)(println(_))  
+  def printAll[T](c: EntityCursor[T]): Unit = cursorIter(c)(println(_)) 
+  
+  override def finalize: Unit = {
+    if (verbose) err.println("BdbStore is about to be finalized")
+    super.finalize
+  } 
 }
