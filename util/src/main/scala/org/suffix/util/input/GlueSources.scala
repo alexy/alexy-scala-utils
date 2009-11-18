@@ -9,7 +9,7 @@ import scala.io.Source
 // arr.iterator.flatMap( File(_).lines() )
 
 
-object ManySources(files: Array[String]) {
+class GlueSources(files: Array[String]) {
 
   def sourceFile(fileName: String): Source = {
     val inStream: java.io.InputStream = { val fis = new FileInputStream(fileName)
@@ -22,7 +22,7 @@ object ManySources(files: Array[String]) {
     // alternatively, 
     // val bread = new BufferedReader(new InputStreamReader(inStream, "UTF-8"))
     // http://viewfromthefringe.blogspot.com/2007/10/making-bufferedreader-iterable.html
-    source.getLines()
+    source
   }
   
   def glueFilesLines(files: Array[String]): Iterator[String] = 
