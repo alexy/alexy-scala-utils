@@ -1,3 +1,5 @@
+package org.suffix.util.input
+
 // the new one handles the leading BZ from command-line bzip2 automatically for us 
 import java.util.zip.GZIPInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
@@ -9,7 +11,7 @@ import scala.io.Source
 // arr.iterator.flatMap( File(_).lines() )
 
 
-class GlueSources(files: Array[String]) {
+object GlueSources {
 
   def sourceFile(fileName: String): Source = {
     val inStream: java.io.InputStream = { val fis = new FileInputStream(fileName)
