@@ -37,5 +37,8 @@ object GlueSources {
     }
  
   def glueFilesLineNums(files: Array[String], verbose: Boolean = false): Iterator[(String,Int)] =
-    files.iterator.flatMap { fileName => sourceFile(fileName).getLines().zipWithIndex }
+    files.iterator.flatMap { fileName => 
+      if (verbose) err.println("reading "+fileName)
+      sourceFile(fileName).getLines().zipWithIndex 
+    }
 }
