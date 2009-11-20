@@ -5,7 +5,7 @@ import java.util.zip.GZIPInputStream
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream
 import java.io.{BufferedReader,InputStreamReader,FileInputStream}
 import scala.io.Source
-
+import System.err
 
 // import scala.tools.nsc.io.File
 // arr.iterator.flatMap( File(_).lines() )
@@ -27,9 +27,15 @@ object GlueSources {
     source
   }
   
-  def glueFilesLines(files: Array[String]): Iterator[String] = 
-    files.iterator.flatMap { fileName => sourceFile(fileName).getLines() }
+  // TODO verbose flag would print the current file name to stderr;
+  // alternatively, the holder of the files list can monitor line numbers with glueFilesLines below
+  // and advance to the next fileName himself upon seeing line number 0
+  def glueFilesLines(files: Array[String], verbose: Boolean = false): Iterator[String] = 
+    files.iterator.flatMap { fileName => 
+      if (verbose) err.println("reading "+fileName)
+      sourceFile(fileName).getLines() 
+    }
  
-  def glueFilesLineNums(files: Array[String]): Iterator[(String,Int)] =
+  def glueFilesLineNums(files: Array[String], verbose: Boolean = false): Iterator[(String,Int)] =
     files.iterator.flatMap { fileName => sourceFile(fileName).getLines().zipWithIndex }
 }
